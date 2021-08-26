@@ -1,0 +1,40 @@
+plugins {
+    id 'java'
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+defaultTasks 'jar'
+
+dependencies {
+    implementation 'junit:junit:4.13.1'
+    testImplementation  'junit:junit:4.13.1'
+    testCompile  'junit:junit:4.13.1'
+}
+
+jar {
+    manifest {
+        attributes "Main-Class": "main.Main"
+    }
+
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
+test {
+    useJUnit()
+}
+
+clean {
+    delete "${buildDir}/build"
+    delete "${buildDir}/out"
+}
